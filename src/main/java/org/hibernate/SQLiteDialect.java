@@ -7,12 +7,13 @@
  *    May you share freely, never taking more than you give.
  *
  */
-package org.hibernate.dialect;
+package org.hibernate;
 
 import java.sql.SQLException;
 import java.sql.Types;
 
 import org.hibernate.JDBCException;
+import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.function.AbstractAnsiTrimEmulationFunction;
 import org.hibernate.dialect.function.NoArgSQLFunction;
 import org.hibernate.dialect.function.SQLFunction;
