@@ -15,5 +15,6 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
          
         <mapping class="br.ufmg.dcc.pm.Cliente"/>
+        <mapping class="br.ufmg.dcc.pm.Medico"/>
     </session-factory>
 </hibernate-configuration>
