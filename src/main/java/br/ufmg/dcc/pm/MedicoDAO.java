@@ -59,8 +59,9 @@ public class MedicoDAO extends AbstractDAO {
      * Finds all Medicos in the database.
      * @return
      */
-    public List findAll() throws DataAccessLayerException{
-        return super.findAll(Medico.class);
+    @SuppressWarnings("unchecked")
+	public List<Medico> findAll() throws DataAccessLayerException{
+        return (List<Medico>) super.findAll(Medico.class);
     }
 
 }

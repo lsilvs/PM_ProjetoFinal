@@ -1,12 +1,12 @@
 package br.ufmg.dcc.pm;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Medico extends Funcionario {
-	
-	Especialidade especialidade;
-	Agenda agenda;
+
+	private Especialidade especialidade;
 	
 	public Medico() {
 
@@ -14,6 +14,15 @@ public class Medico extends Funcionario {
 
 	public Medico(String nome) {
 		super.nome = nome;
+	}
+	
+	@OneToOne
+	public Especialidade getEspecialidade() {
+		return especialidade;
+	}
+
+	public void setEspecialidade(Especialidade especialidade) {
+		this.especialidade = especialidade;
 	}
 
 }

@@ -59,8 +59,9 @@ public class ClienteDAO extends AbstractDAO {
      * Finds all clientes in the database.
      * @return
      */
-    public List findAll() throws DataAccessLayerException{
-        return super.findAll(Cliente.class);
+    @SuppressWarnings("unchecked")
+	public List<Cliente> findAll() throws DataAccessLayerException{
+        return (List<Cliente>) super.findAll(Cliente.class);
     }
 
 }
