@@ -5,8 +5,6 @@ import java.util.List;
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
 import org.hibernate.HibernateFactory;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import br.ufmg.dcc.pm.models.Cliente;
@@ -39,7 +37,7 @@ public class ClienteDAO extends AbstractDAO {
      * @param id
      * @return
      */
-    public Cliente find(Long id) throws DataAccessLayerException {
+    public Cliente find(int id) throws DataAccessLayerException {
         return (Cliente) super.find(Cliente.class, id);
     }
 

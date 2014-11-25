@@ -39,11 +39,11 @@ public abstract class AbstractDAO {
         }
     }
 
-    protected Object find(Class clazz, Long id) {
+    protected Object find(Class clazz, int i) {
         Object obj = null;
         try {
             startOperation();
-            obj = session.load(clazz, id);
+            obj = session.load(clazz, i);
             tx.commit();
         } catch (HibernateException e) {
             handleException(e);
@@ -58,6 +58,21 @@ public abstract class AbstractDAO {
         try {
             startOperation();
             Query query = session.createQuery("from " + clazz.getName());
+            objects = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            handleException(e);
+        } finally {
+            HibernateFactory.close(session);
+        }
+        return objects;
+    }
+    
+    protected List createQuery(String sql) {
+    	List objects = null;
+        try {
+            startOperation();
+            Query query = session.createQuery(sql);
             objects = query.list();
             tx.commit();
         } catch (HibernateException e) {

@@ -1,3 +1,4 @@
 .DS_Store
 mydb.db
+mydb.db-journal
 target

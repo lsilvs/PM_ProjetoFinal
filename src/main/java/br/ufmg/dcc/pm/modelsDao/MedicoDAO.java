@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
 
+import br.ufmg.dcc.pm.models.Especialidade;
 import br.ufmg.dcc.pm.models.Medico;
 
 
@@ -35,7 +36,7 @@ public class MedicoDAO extends AbstractDAO {
      * @param id
      * @return
      */
-    public Medico find(Long id) throws DataAccessLayerException {
+    public Medico find(int id) throws DataAccessLayerException {
         return (Medico) super.find(Medico.class, id);
     }
 
@@ -64,6 +65,16 @@ public class MedicoDAO extends AbstractDAO {
     @SuppressWarnings("unchecked")
 	public List<Medico> findAll() throws DataAccessLayerException{
         return (List<Medico>) super.findAll(Medico.class);
+    }
+    
+    /**
+     * Finds all Medicos in the database.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+	public List<Medico> findAllByEspecialidade(Especialidade especialidade) throws DataAccessLayerException{
+        String sql = "FROM " + Medico.class.getName() + " WHERE especialidade_id = " + especialidade.getId();
+    	return (List<Medico>) super.createQuery(sql);
     }
 
 }

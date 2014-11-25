@@ -12,8 +12,9 @@ public class Medico extends Funcionario {
 
 	}
 
-	public Medico(String nome) {
+	public Medico(String nome, Especialidade especialidade) {
 		super.nome = nome;
+		this.especialidade = especialidade;
 	}
 	
 	@OneToOne
