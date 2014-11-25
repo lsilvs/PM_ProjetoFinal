@@ -1,4 +1,4 @@
-package br.ufmg.dcc.pm;
+package br.ufmg.dcc.pm.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

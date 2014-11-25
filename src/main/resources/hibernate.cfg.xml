@@ -14,12 +14,12 @@
 
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <mapping class="br.ufmg.dcc.pm.Cliente"/>
-        <mapping class="br.ufmg.dcc.pm.Consulta"/>
-        <mapping class="br.ufmg.dcc.pm.Especialidade"/>
-        <mapping class="br.ufmg.dcc.pm.Exame"/>
-        <mapping class="br.ufmg.dcc.pm.Funcionario"/>
-        <mapping class="br.ufmg.dcc.pm.Medico"/>
-        <mapping class="br.ufmg.dcc.pm.TipoExame"/>
+        <mapping class="br.ufmg.dcc.pm.models.Cliente"/>
+        <mapping class="br.ufmg.dcc.pm.models.Consulta"/>
+        <mapping class="br.ufmg.dcc.pm.models.Especialidade"/>
+        <mapping class="br.ufmg.dcc.pm.models.Exame"/>
+        <mapping class="br.ufmg.dcc.pm.models.Funcionario"/>
+        <mapping class="br.ufmg.dcc.pm.models.Medico"/>
+        <mapping class="br.ufmg.dcc.pm.models.TipoExame"/>
     </session-factory>
 </hibernate-configuration>

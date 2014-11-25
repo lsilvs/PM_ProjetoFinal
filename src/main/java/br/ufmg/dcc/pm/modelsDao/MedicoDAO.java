@@ -1,9 +1,11 @@
-package br.ufmg.dcc.pm;
+package br.ufmg.dcc.pm.modelsDao;
 
 import java.util.List;
 
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
+
+import br.ufmg.dcc.pm.models.Medico;
 
 
 public class MedicoDAO extends AbstractDAO {

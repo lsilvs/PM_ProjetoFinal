@@ -1,4 +1,4 @@
-package br.ufmg.dcc.pm;
+package br.ufmg.dcc.pm.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class TipoExame {
+public class Especialidade {
 
 	private Integer id;
 	private String nome;
@@ -28,5 +28,5 @@ public class TipoExame {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+	
 }

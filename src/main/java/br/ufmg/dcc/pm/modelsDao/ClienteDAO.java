@@ -1,9 +1,15 @@
-package br.ufmg.dcc.pm;
+package br.ufmg.dcc.pm.modelsDao;
 
 import java.util.List;
 
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
+import org.hibernate.HibernateFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
+import br.ufmg.dcc.pm.models.Cliente;
 
 
 public class ClienteDAO extends AbstractDAO {
@@ -62,6 +68,15 @@ public class ClienteDAO extends AbstractDAO {
     @SuppressWarnings("unchecked")
 	public List<Cliente> findAll() throws DataAccessLayerException{
         return (List<Cliente>) super.findAll(Cliente.class);
+    }
+    
+    public boolean jaCadastrado(String numCpf) throws DataAccessLayerException{
+    	HibernateFactory.getSessionFactory().openSession().createCriteria( Cliente.class ).
+    	           add( Restrictions.eq("numCPF", numCpf) ).
+    	           uniqueResult();
+    	return true; 
+    	
+    	
     }
 
 }

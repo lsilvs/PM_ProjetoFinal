@@ -2,6 +2,11 @@ package br.ufmg.dcc.pm;
 
 import java.util.List;
 
+import br.ufmg.dcc.pm.models.Cliente;
+import br.ufmg.dcc.pm.models.Medico;
+import br.ufmg.dcc.pm.modelsDao.ClienteDAO;
+import br.ufmg.dcc.pm.modelsDao.MedicoDAO;
+
 public class App {
 
     public static void main(String[] args) {
@@ -11,8 +16,16 @@ public class App {
         Cliente myCliente1 = new Cliente("Lucia Santos Miranda", "06212332144");
         Cliente myCliente2 = new Cliente("Carlos Antunes Goncalves", "22156798722");
 
-        clienteDao.saveOrUpdate(myCliente1);
-        clienteDao.saveOrUpdate(myCliente2);
+        try{
+        	clienteDao.saveOrUpdate(myCliente1);
+            clienteDao.saveOrUpdate(myCliente2);
+        }catch(Exception e){
+        	
+        }
+        
+        
+//        System.out.println(String.valueOf(clienteDao.jaCadastrado("06212332144")));
+//        System.out.println(clienteDao.jaCadastrado("06212332140"));
 
         List<Cliente> clienteList = (List<Cliente>) clienteDao.findAll();
 
@@ -25,8 +38,13 @@ public class App {
         Medico myMedico1 = new Medico("Dr. Atauffo Ribeiro");
         Medico myMedico2 = new Medico("Dra. Cristina Almeida");
 
-        medicoDao.saveOrUpdate(myMedico1);
-        medicoDao.saveOrUpdate(myMedico2);
+        try{
+        	medicoDao.saveOrUpdate(myMedico1);
+            medicoDao.saveOrUpdate(myMedico2);
+        }catch(Exception e){
+        	
+        }
+        
 
         List<Medico> medicoList = (List<Medico>) medicoDao.findAll();
 

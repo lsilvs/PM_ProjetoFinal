@@ -1,4 +1,4 @@
-package br.ufmg.dcc.pm;
+package br.ufmg.dcc.pm.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,11 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Especialidade {
-
-	private Integer id;
-	private String nome;
+public class Agenda {
 	
+	private Integer id;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	public Integer getId() {
@@ -20,13 +19,4 @@ public class Especialidade {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
 }

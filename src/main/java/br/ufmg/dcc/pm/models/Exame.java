@@ -1,4 +1,4 @@
-package br.ufmg.dcc.pm;
+package br.ufmg.dcc.pm.models;
 
 import java.util.Date;
 
@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Consulta {
+public class Exame {
 
 	private Integer id;
 	private Cliente cliente;
-	private Medico medico;
+	private TipoExame tipoExame;
 	private Date data;
 	private String tipo;
 	
@@ -37,12 +37,12 @@ public class Consulta {
 	}
 
 	@OneToOne
-	public Medico getMedico() {
-		return medico;
+	public TipoExame getTipoExame() {
+		return tipoExame;
 	}
 
-	public void setMedico(Medico medico) {
-		this.medico = medico;
+	public void setTipoExame(TipoExame tipoExame) {
+		this.tipoExame = tipoExame;
 	}
 
 	public Date getData() {

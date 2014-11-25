@@ -1,5 +1,6 @@
-package br.ufmg.dcc.pm;
+package br.ufmg.dcc.pm.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,6 +51,7 @@ public class Cliente {
 		this.numIdentidade = numIdentidade;
 	}
 
+	@Column(unique = true)
 	public String getNumCPF() {
 		return numCPF;
 	}
