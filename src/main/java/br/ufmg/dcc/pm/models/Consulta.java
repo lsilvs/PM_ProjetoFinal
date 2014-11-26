@@ -2,6 +2,7 @@ package br.ufmg.dcc.pm.models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,13 @@ public class Consulta {
 	private Date data;
 	private String tipo;
 	
+	public Consulta(Cliente cliente, Medico medico, Date data, String tipo) {
+		this.cliente = cliente;
+		this.medico = medico;
+		this.data = data;
+		this.tipo = tipo;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	public Integer getId() {
@@ -27,7 +35,7 @@ public class Consulta {
 		this.id = id;
 	}
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -36,7 +44,7 @@ public class Consulta {
 		this.cliente = cliente;
 	}
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	public Medico getMedico() {
 		return medico;
 	}
