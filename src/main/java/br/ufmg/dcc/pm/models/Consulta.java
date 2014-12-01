@@ -4,44 +4,22 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-@Entity
-public class Consulta {
+import org.hibernate.annotations.Proxy;
 
-	private Integer id;
-	private Cliente cliente;
+@Entity
+@Proxy(lazy=false)
+public class Consulta extends Atendimento {
+
 	private Medico medico;
-	private Date data;
-	private String tipo;
 	
 	public Consulta(Cliente cliente, Medico medico, Date data, String tipo) {
-		this.cliente = cliente;
+		super.cliente = cliente;
+		super.data = data;
+		super.tipo = tipo;
+		super.aprovado = false;
 		this.medico = medico;
-		this.data = data;
-		this.tipo = tipo;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@OneToOne(cascade=CascadeType.ALL)
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 
 	@OneToOne(cascade=CascadeType.ALL)
@@ -51,22 +29,6 @@ public class Consulta {
 
 	public void setMedico(Medico medico) {
 		this.medico = medico;
-	}
-
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 }

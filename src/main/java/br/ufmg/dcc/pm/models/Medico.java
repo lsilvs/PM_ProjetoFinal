@@ -1,9 +1,13 @@
 package br.ufmg.dcc.pm.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Proxy;
+
 @Entity
+@Proxy(lazy=false)
 public class Medico extends Funcionario {
 
 	private Especialidade especialidade;
@@ -17,7 +21,7 @@ public class Medico extends Funcionario {
 		this.especialidade = especialidade;
 	}
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	public Especialidade getEspecialidade() {
 		return especialidade;
 	}
