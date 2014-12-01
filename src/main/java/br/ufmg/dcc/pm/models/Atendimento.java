@@ -66,7 +66,7 @@ public class Atendimento {
 	
 	public void solicitarAprovacao() {
 		if(this.tipo == "cortesia") {
-			this.aprovado = ((this.id % 5) == 0);
+			this.aprovado = ((this.id % 5) != 0);
 		} else if(this.tipo == "cheque") {
 			this.aprovado = (Math.random() < 0.5);
 		} else if(this.tipo == "cartao") {
