@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
-import org.hibernate.HibernateFactory;
-import org.hibernate.criterion.Restrictions;
 
 import br.ufmg.dcc.pm.models.Cliente;
 
@@ -68,13 +66,17 @@ public class ClienteDAO extends AbstractDAO {
         return (List<Cliente>) super.findAll(Cliente.class);
     }
     
+    // Find Clientes pelo CPF    
     public boolean jaCadastrado(String numCpf) throws DataAccessLayerException{
-    	HibernateFactory.getSessionFactory().openSession().createCriteria( Cliente.class ).
-    	           add( Restrictions.eq("numCPF", numCpf) ).
-    	           uniqueResult();
+    	Cliente cliente = findByCpf(numCpf); 
+    	if(cliente == null) return false; 
     	return true; 
-    	
-    	
+    }
+    
+    public Cliente findByCpf(String numCpf) throws DataAccessLayerException{
+    	List<?> clientes = super.createQuery("from Cliente WHERE numCPF = '"+numCpf+"'");
+    	if(clientes.isEmpty()) return null;
+    	return (Cliente)clientes.get(0);
     }
 
 }

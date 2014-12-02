@@ -19,13 +19,19 @@ public class Cliente {
 	private String telefone;
 	private String dataNascimento;
 
-	public Cliente() {
-
-	}
+	public Cliente() {}
 
 	public Cliente(String name, String cpf) {
 		this.nome = name;
 		this.numCPF = cpf;
+	}
+
+	public Cliente(String nome, String identidade, String cpf, String dataNascimento, String telefone) {
+		this.nome = nome;
+		this.numIdentidade = identidade;
+		this.dataNascimento = dataNascimento;
+		this.numCPF = cpf;
+		this.telefone = telefone; 
 	}
 
 	@Id

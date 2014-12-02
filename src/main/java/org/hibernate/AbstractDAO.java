@@ -68,8 +68,8 @@ public abstract class AbstractDAO {
         return objects;
     }
     
-    protected List createQuery(String sql) {
-    	List objects = null;
+    protected List<?> createQuery(String sql) {
+    	List<?> objects = null;
         try {
             startOperation();
             Query query = session.createQuery(sql);
