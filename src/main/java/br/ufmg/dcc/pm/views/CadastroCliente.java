@@ -10,9 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import br.ufmg.dcc.pm.App;
 import br.ufmg.dcc.pm.models.Cliente;
 import br.ufmg.dcc.pm.modelsDao.ClienteDAO;
-import br.ufmg.dcc.pm.utils.ConcludeScreen;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -25,14 +25,12 @@ public class CadastroCliente{
 	private JTextField txtIdentidade;
 	private JTextField txtCPF;
 	private JTextField txtDataNascimento;
-	private JTextField txtTelefone;
-	private ConcludeScreen conclude;
+	private JTextField txtTelefone; 
 
 	/**
 	 * Create the application.
 	 */
-	public CadastroCliente(String cpf, final ConcludeScreen conclude) { 
-		this.conclude = conclude;
+	public CadastroCliente(String cpf) { 
 		frame = new JFrame("Cadastro Cliente");
 		frame.setBounds(100, 100, 442, 258);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,9 +122,7 @@ public class CadastroCliente{
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				salvaCliente();
-				
-				
+				salvaCliente(); 
 			} 
 		});
 		panel_5.add(btnSalvar);
@@ -139,9 +135,10 @@ public class CadastroCliente{
 		String dataNascimento = txtDataNascimento.getText();
 		String telefone = txtTelefone.getText();
  
-		new ClienteDAO().create(new Cliente(nome,identidade,cpf,dataNascimento,telefone));
+		new ClienteDAO().create(new Cliente(nome,identidade,cpf,dataNascimento,telefone)); 
 		
-		conclude.concludeScreen(frame);
+		frame.dispose();  
+		App.abreHome(cpf);
 	}
 
 	public JFrame getFrame() {

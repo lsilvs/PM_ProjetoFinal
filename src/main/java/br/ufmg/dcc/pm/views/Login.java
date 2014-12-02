@@ -13,22 +13,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import br.ufmg.dcc.pm.App;
 import br.ufmg.dcc.pm.modelsDao.ClienteDAO;
-import br.ufmg.dcc.pm.utils.ConcludeLogin;
 
 public class Login {
 
 	private JFrame frame;
 	private JPanel panel; 
 	private JLabel lblCpf;
-	private JTextField txtCPF; 
-	private ConcludeLogin conclude;
+	private JTextField txtCPF;  
 
 	/**
 	 * Create the application.
 	 */
-	public Login(ConcludeLogin conclude) {
-		this.conclude = conclude;
+	public Login() { 
 		initialize();
 	}
 
@@ -61,9 +59,11 @@ public class Login {
 				String cpf = txtCPF.getText();
 				if(!cpf.equals("")){ 
 					if(!realizaLogin(cpf)){ 
-						conclude.clienteNaoCadastrado(frame,cpf);
-					}else{  
-						conclude.clienteCadastrado(frame,cpf);
+						CadastroCliente cadastro = new CadastroCliente(cpf);
+						cadastro.getFrame().setVisible(true); 
+					}else{
+						frame.dispose();  
+						App.abreHome(cpf);
 					}
 					frame.dispose();
 				} 
