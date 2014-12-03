@@ -29,5 +29,9 @@ public class Medico extends Funcionario {
 	public void setEspecialidade(Especialidade especialidade) {
 		this.especialidade = especialidade;
 	}
+	
+	public String toString(){
+		return this.nome;
+	}
 
 }

@@ -46,7 +46,9 @@ public class Home {
 		panel.add(btnPedidoDeExame);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Teste");
+				frame.dispose();
+				AgendaConsulta agenda = new AgendaConsulta();
+				agenda.getFrame().setVisible(true);
 			}
 		});
 	}
