@@ -133,10 +133,8 @@ public class CadastroCliente{
 		String identidade = txtIdentidade.getText();
 		String cpf = txtCPF.getText();
 		String dataNascimento = txtDataNascimento.getText();
-		String telefone = txtTelefone.getText();
- 
+		String telefone = txtTelefone.getText(); 
 		new ClienteDAO().create(new Cliente(nome,identidade,cpf,dataNascimento,telefone)); 
-		
 		frame.dispose();  
 		App.abreHome(cpf);
 	}

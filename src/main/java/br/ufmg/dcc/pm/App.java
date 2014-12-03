@@ -9,10 +9,11 @@ public class App {
  
 	private static String Cpf;
 	
-	public static void main(String[] args) throws ParseException {
-		
+	public static void main(String[] args) throws ParseException { 	
 		Login loginFrame = new Login();
 		loginFrame.getFrame().setVisible(true);
+		
+		
 	}
 
 	public static String getCpf() {
@@ -28,4 +29,5 @@ public class App {
 		Home home = new Home();
 		home.getFrame().setVisible(true);
 	}
+	
 }
