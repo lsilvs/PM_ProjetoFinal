@@ -42,7 +42,7 @@ public class AgendaExame {
 	 */
 	public AgendaExame() {
 		frmAgendarExame = new JFrame("Cadastro Cliente");
-		frmAgendarExame.setTitle("Agendar consulta");
+		frmAgendarExame.setTitle("Agendar exame");
 		frmAgendarExame.setBounds(100, 100, 442, 258);
 		frmAgendarExame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAgendarExame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
@@ -50,7 +50,7 @@ public class AgendaExame {
 		JPanel panel_1 = FormularioUtils.generatePanel();
 		frmAgendarExame.getContentPane().add(panel_1);
 
-		JLabel lblTipoExame = new JLabel("Médico  ");
+		JLabel lblTipoExame = new JLabel("Exame  ");
 		panel_1.add(lblTipoExame, "1, 1, right, fill");
 
 		cbTipoExame = new JComboBox<TipoExame>();
