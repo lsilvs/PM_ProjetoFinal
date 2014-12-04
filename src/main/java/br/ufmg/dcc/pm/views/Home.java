@@ -71,10 +71,16 @@ public class Home {
 		frmEscolhaUmaAo.getContentPane().add(panel, "1, 2, fill, fill");
 		
 		JButton btnCadastrar = new JButton("Cadastrar Consulta");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				getFrame().dispose(); 
+				AgendaConsulta agenda = new AgendaConsulta();
+				agenda.getFrame().setVisible(true);
+			}
+		});
 		panel.add(btnCadastrar);
 		
 		JButton btnPedidoDeExame = new JButton("Pedido de Exame");
-		panel.add(btnPedidoDeExame);
 		btnPedidoDeExame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getFrame().dispose();
@@ -83,6 +89,7 @@ public class Home {
 				agendaExame.getFrame().setVisible(true);
 			}
 		});
+		panel.add(btnPedidoDeExame);
 		
 		JButton btnCancelarConsulta = new JButton("Cancelar Consulta");
 		btnCancelarConsulta.addActionListener(new ActionListener() {
@@ -95,14 +102,14 @@ public class Home {
 		panel.add(btnCancelarConsulta);
 		
 		JButton btnCancelarExame = new JButton("Cancelar Exame");
-		panel.add(btnCancelarExame);
-		btnCadastrar.addActionListener(new ActionListener() {
+		btnCancelarExame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				getFrame().dispose(); 
-				AgendaConsulta agenda = new AgendaConsulta();
-				agenda.getFrame().setVisible(true);
+				CancelaExame exame = new CancelaExame();
+				exame.getFrame().setVisible(true);
 			}
 		});
+		panel.add(btnCancelarExame);
 	}
 
 }

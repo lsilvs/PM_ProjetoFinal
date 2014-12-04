@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
 
+import br.ufmg.dcc.pm.models.Cliente;
 import br.ufmg.dcc.pm.models.Consulta;
 import br.ufmg.dcc.pm.models.Exame;
 import br.ufmg.dcc.pm.models.Medico;
@@ -94,5 +95,11 @@ public class ExameDAO extends AbstractDAO {
         String sql = "FROM " + Consulta.class.getName() + " WHERE tipoExame_id = " + tipoExame.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
     	return (List<Exame>) super.createQuery(sql);
     }
+
+    @SuppressWarnings("unchecked")
+	public List<Exame> findByDateAndCliente(Date date, Cliente cliente) throws DataAccessLayerException{
+		String sql = "FROM " + Consulta.class.getName() + " WHERE data = " + date.getTime() + " AND cliente_id = " + cliente.getId();
+		return (List<Exame>) super.createQuery(sql);
+	}
 
 }
