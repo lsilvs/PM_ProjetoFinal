@@ -43,8 +43,7 @@ public class AgendaConsulta {
 	 * Create the frame.
 	 */
 	public AgendaConsulta() {
-		frmAgendarConsulta = new JFrame("Cadastro Cliente");
-		frmAgendarConsulta.setTitle("Agendar consulta");
+		frmAgendarConsulta = new JFrame("Agendar consulta"); 
 		frmAgendarConsulta.setBounds(100, 100, 442, 258);
 		frmAgendarConsulta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAgendarConsulta.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));

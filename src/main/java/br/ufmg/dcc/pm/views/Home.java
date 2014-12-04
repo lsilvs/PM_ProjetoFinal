@@ -77,14 +77,20 @@ public class Home {
 		panel.add(btnPedidoDeExame);
 		
 		JButton btnCancelarConsulta = new JButton("Cancelar Consulta");
+		btnCancelarConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				getFrame().dispose(); 
+				CancelaConsulta agenda = new CancelaConsulta();
+				agenda.getFrame().setVisible(true);
+			}
+		});
 		panel.add(btnCancelarConsulta);
 		
 		JButton btnCancelarExame = new JButton("Cancelar Exame");
 		panel.add(btnCancelarExame);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getFrame().dispose();
-				
+//				getFrame().dispose(); 
 				AgendaConsulta agenda = new AgendaConsulta();
 				agenda.getFrame().setVisible(true);
 			}

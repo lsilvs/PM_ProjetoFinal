@@ -6,12 +6,16 @@ import java.util.List;
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
 
+import br.ufmg.dcc.pm.models.Cliente;
 import br.ufmg.dcc.pm.models.Consulta;
 import br.ufmg.dcc.pm.models.Medico;
 import br.ufmg.dcc.pm.utils.DateUtils;
 
 
 public class ConsultaDAO extends AbstractDAO {
+	
+	private String ENTITY_NAME = Consulta.class.getName();
+	
     public ConsultaDAO() {
         super();
     }
@@ -71,7 +75,7 @@ public class ConsultaDAO extends AbstractDAO {
     
     @SuppressWarnings("unchecked")
 	public List<Consulta> findAllByMedico(Medico medico) throws DataAccessLayerException{
-        String sql = "FROM " + Consulta.class.getName() + " WHERE medico_id = " + medico.getId();
+        String sql = "FROM " + ENTITY_NAME + " WHERE medico_id = " + medico.getId();
     	return (List<Consulta>) super.createQuery(sql);
     }
      
@@ -80,15 +84,21 @@ public class ConsultaDAO extends AbstractDAO {
 		Date beginin = DateUtils.getBegginOfDay(date);
 		Date endin = DateUtils.getEndOfDay(date);
 		
-        String sql = "FROM " + Consulta.class.getName() + " WHERE medico_id = " + medico.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
+        String sql = "FROM " + ENTITY_NAME + " WHERE medico_id = " + medico.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
     	return (List<Consulta>) super.createQuery(sql);
     }
 	
 	@SuppressWarnings("unchecked")
 	public int getNumberOf(String tipo) throws DataAccessLayerException{ 
-		String sql = "FROM " + Consulta.class.getName() + " WHERE tipo = '" + tipo + "'";
+		String sql = "FROM " + ENTITY_NAME + " WHERE tipo = '" + tipo + "'";
 		List<Consulta> c = (List<Consulta>) super.createQuery(sql);
     	return c.size();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Consulta> findByDateAndCliente(Date date, Cliente cliente) throws DataAccessLayerException{
+		String sql = "FROM " + ENTITY_NAME + " WHERE data = " + date.getTime() + " AND cliente_id = " + cliente.getId();
+		return (List<Consulta>) super.createQuery(sql);
 	}
 
 }
