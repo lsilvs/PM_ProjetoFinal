@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import br.ufmg.dcc.pm.models.Exame;
 import br.ufmg.dcc.pm.modelsDao.ExameDAO;
@@ -99,14 +100,11 @@ public class VisualizarExame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ExameDAO().delete(exameAtual);
+				JOptionPane.showMessageDialog(null, "Exame cancelado com sucesso!");
 				getFrame().dispose();
 			}
 		});
-		frame.getContentPane().add(btnCancelar, "5, 9, left, default");
-		 
-		 
-		
-		 
+		frame.getContentPane().add(btnCancelar, "5, 9, left, default"); 
 	}
 	
 	public JFrame getFrame() {

@@ -7,15 +7,16 @@ import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
 
 import br.ufmg.dcc.pm.models.Cliente;
-import br.ufmg.dcc.pm.models.Consulta;
 import br.ufmg.dcc.pm.models.Exame;
-import br.ufmg.dcc.pm.models.Medico;
 import br.ufmg.dcc.pm.models.TipoExame;
 import br.ufmg.dcc.pm.utils.DateUtils;
 
 
 public class ExameDAO extends AbstractDAO {
-    public ExameDAO() {
+    private final static String ENTITY_NAME = Exame.class.getName();
+
+
+	public ExameDAO() {
         super();
     }
 
@@ -92,14 +93,23 @@ public class ExameDAO extends AbstractDAO {
 		Date beginin = DateUtils.getBegginOfDay(date);
 		Date endin = DateUtils.getEndOfDay(date);
 		
-        String sql = "FROM " + Consulta.class.getName() + " WHERE tipoExame_id = " + tipoExame.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
+        String sql = "FROM " + ENTITY_NAME + " WHERE aprovado = 1 AND tipoExame_id = " + tipoExame.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
     	return (List<Exame>) super.createQuery(sql);
     }
 
     @SuppressWarnings("unchecked")
 	public List<Exame> findByDateAndCliente(Date date, Cliente cliente) throws DataAccessLayerException{
-		String sql = "FROM " + Consulta.class.getName() + " WHERE data = " + date.getTime() + " AND cliente_id = " + cliente.getId();
+		String sql = "FROM " + ENTITY_NAME + " WHERE data = " + date.getTime() + " AND cliente_id = " + cliente.getId();
 		return (List<Exame>) super.createQuery(sql);
 	}
+    
+
+	@SuppressWarnings("unchecked")
+	public int getNumberOf(String tipo) throws DataAccessLayerException{ 
+		String sql = "FROM " + ENTITY_NAME  + " WHERE tipo = '" + tipo + "'";
+		List<Exame> c = (List<Exame>) super.createQuery(sql);
+    	return c.size();
+	}
+	
 
 }

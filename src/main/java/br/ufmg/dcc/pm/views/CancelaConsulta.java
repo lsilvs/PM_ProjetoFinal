@@ -103,6 +103,7 @@ public class CancelaConsulta {
 			for(Consulta c : consultas){
 				System.out.println(c.getMedico().toString()); 
 			}
+			getFrame().dispose();
 			VisualizarConsulta vc = new VisualizarConsulta(consultas.get(0));
 			vc.getFrame().setVisible(true);
 		} 

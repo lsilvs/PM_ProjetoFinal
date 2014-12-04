@@ -12,10 +12,14 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class Home {
+public class Home implements ActionListener {
 
 	private JFrame frmEscolhaUmaAo;
 	private String mensagem;
+	private JButton btnCancelarExame;
+	private JButton btnCadastrar;
+	private JButton btnPedidoDeExame;
+	private JButton btnCancelarConsulta;
 
 	/**
 	 * Create the application.
@@ -70,46 +74,40 @@ public class Home {
 		JPanel panel = new JPanel();
 		frmEscolhaUmaAo.getContentPane().add(panel, "1, 2, fill, fill");
 		
-		JButton btnCadastrar = new JButton("Cadastrar Consulta");
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				getFrame().dispose(); 
-				AgendaConsulta agenda = new AgendaConsulta();
-				agenda.getFrame().setVisible(true);
-			}
-		});
+		btnCadastrar = new JButton("Cadastrar Consulta");
+		btnCadastrar.addActionListener(this);
 		panel.add(btnCadastrar);
 		
-		JButton btnPedidoDeExame = new JButton("Pedido de Exame");
-		btnPedidoDeExame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				getFrame().dispose();
-
-				AgendaExame agendaExame = new AgendaExame();
-				agendaExame.getFrame().setVisible(true);
-			}
-		});
+		btnPedidoDeExame = new JButton("Pedido de Exame");
+		btnPedidoDeExame.addActionListener(this);
 		panel.add(btnPedidoDeExame);
 		
-		JButton btnCancelarConsulta = new JButton("Cancelar Consulta");
-		btnCancelarConsulta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				getFrame().dispose(); 
-				CancelaConsulta agenda = new CancelaConsulta();
-				agenda.getFrame().setVisible(true);
-			}
-		});
+		btnCancelarConsulta = new JButton("Cancelar Consulta");
+		btnCancelarConsulta.addActionListener(this);
 		panel.add(btnCancelarConsulta);
 		
-		JButton btnCancelarExame = new JButton("Cancelar Exame");
-		btnCancelarExame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				getFrame().dispose(); 
-				CancelaExame exame = new CancelaExame();
-				exame.getFrame().setVisible(true);
-			}
-		});
+		btnCancelarExame = new JButton("Cancelar Exame");
+		btnCancelarExame.addActionListener(this);
 		panel.add(btnCancelarExame);
 	}
+
+	public void actionPerformed(ActionEvent e) {
+		if(btnCancelarExame == e.getSource()){
+			CancelaExame exame = new CancelaExame();
+			exame.getFrame().setVisible(true);
+		} 
+		else if(btnCancelarConsulta == e.getSource()){
+			CancelaConsulta agenda = new CancelaConsulta();
+			agenda.getFrame().setVisible(true);
+		}
+		else if(btnPedidoDeExame == e.getSource()){
+			AgendaExame agendaExame = new AgendaExame();
+			agendaExame.getFrame().setVisible(true);
+		}else if(btnCadastrar == e.getSource()){
+			AgendaConsulta agenda = new AgendaConsulta();
+			agenda.getFrame().setVisible(true);
+		}
+				
+	} 
 
 }

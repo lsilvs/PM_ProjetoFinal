@@ -1,11 +1,5 @@
 package org.hibernate;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.Query;
-import org.hibernate.criterion.Projections;
-
 import java.util.List;
 
 public abstract class AbstractDAO {

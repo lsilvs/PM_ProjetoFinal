@@ -8,6 +8,8 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Proxy;
 
+import br.ufmg.dcc.pm.modelsDao.ConsultaDAO;
+
 @Entity
 @Proxy(lazy=false)
 public class Consulta extends Atendimento {
@@ -23,10 +25,10 @@ public class Consulta extends Atendimento {
 		this.medico = medico;
 		super.aprovado = false; 
 		
-		solicitarAprovacao();
-	}
-
-	@OneToOne(cascade=CascadeType.ALL)
+		solicitarAprovacao(new ConsultaDAO());
+	} 
+	
+	@OneToOne(cascade=CascadeType.DETACH)
 	public Medico getMedico() {
 		return medico;
 	}

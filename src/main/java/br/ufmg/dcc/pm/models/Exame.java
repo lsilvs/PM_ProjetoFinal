@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import br.ufmg.dcc.pm.modelsDao.ExameDAO;
+
 @Entity
 public class Exame extends Atendimento {
 
@@ -19,9 +21,11 @@ public class Exame extends Atendimento {
 		super.tipo = tipo;
 		super.aprovado = false;
 		this.tipoExame = tipoExame;
+		
+		solicitarAprovacao(new ExameDAO());
 	}
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.DETACH)
 	public TipoExame getTipoExame() {
 		return tipoExame;
 	}

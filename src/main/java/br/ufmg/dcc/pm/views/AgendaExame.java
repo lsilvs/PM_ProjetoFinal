@@ -14,14 +14,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import br.ufmg.dcc.pm.App;
 import br.ufmg.dcc.pm.models.Atendimento;
-import br.ufmg.dcc.pm.models.Especialidade;
 import br.ufmg.dcc.pm.models.Exame;
 import br.ufmg.dcc.pm.models.TipoExame;
-import br.ufmg.dcc.pm.modelsDao.EspecialidadeDAO;
 import br.ufmg.dcc.pm.modelsDao.ExameDAO;
 import br.ufmg.dcc.pm.modelsDao.TipoExameDAO;
 import br.ufmg.dcc.pm.utils.DateUtils;
@@ -191,9 +190,6 @@ public class AgendaExame {
 			else if(consulta.getTipo().equals("cheque"))
 				msg_resultado += "Seu cheque não foi aprovado a consulta";
 		}
-		Home m = new Home(msg_resultado);
-		m.getFrame().setVisible(true);
-		
-        
+		JOptionPane.showMessageDialog(null, msg_resultado);
 	}
 }

@@ -9,12 +9,15 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import br.ufmg.dcc.pm.App;
+import br.ufmg.dcc.pm.exceptions.InvalidCpfException;
 import br.ufmg.dcc.pm.modelsDao.ClienteDAO;
+import br.ufmg.dcc.pm.utils.CpfUtils;
 
 public class Login {
 
@@ -45,7 +48,7 @@ public class Login {
 		panel.add(lblCpf);
 		
 		try {
-			txtCPF = new JFormattedTextField(new MaskFormatter("HHH.HHH.HHH-HH"));
+			txtCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 		} catch (ParseException e1) { 
 			e1.printStackTrace();
 		}
@@ -57,22 +60,33 @@ public class Login {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
 				String cpf = txtCPF.getText();
-				if(!cpf.equals("")){ 
-					if(!realizaLogin(cpf)){ 
-						CadastroCliente cadastro = new CadastroCliente(cpf);
-						cadastro.getFrame().setVisible(true); 
-					}else{
-						frame.dispose();  
-						App.abreHome(cpf);
+				try {
+					if(validaCpf(cpf)){
+						if(!realizaLogin(cpf)){ 
+							CadastroCliente cadastro = new CadastroCliente(cpf);
+							cadastro.getFrame().setVisible(true); 
+						}else{
+							App.abreHome(cpf);
+						}
+						frame.dispose();
 					}
-					frame.dispose();
-				} 
+				} catch (InvalidCpfException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+				
 			} 			
 		});
 	}
 
+	private boolean validaCpf(String cpf) throws InvalidCpfException{
+		if(cpf.equals("") || !CpfUtils.validaDigitos(cpf)) throw new InvalidCpfException();
+		return true;
+	}
+	 
+
 	private boolean realizaLogin(String cpf) {
-		ClienteDAO cliente = new ClienteDAO();
+		ClienteDAO cliente = new ClienteDAO(); 
 		if(cliente.jaCadastrado(cpf)) return true; 
 		return false;
 	}

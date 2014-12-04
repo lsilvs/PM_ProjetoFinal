@@ -103,6 +103,7 @@ public class CancelaExame {
 			for(Exame c : exames){
 				System.out.println(c.getTipoExame().toString()); 
 			}
+			getFrame().dispose();
 			VisualizarExame vc = new VisualizarExame(exames.get(0));
 			vc.getFrame().setVisible(true);
 		} 

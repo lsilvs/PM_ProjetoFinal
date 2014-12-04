@@ -12,6 +12,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
 import br.ufmg.dcc.pm.modelsDao.ConsultaDAO;
+import br.ufmg.dcc.pm.modelsDao.ExameDAO;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -37,7 +38,7 @@ public class Atendimento {
 		this.id = id;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.DETACH)
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -70,8 +71,27 @@ public class Atendimento {
 		this.aprovado = aprovado;
 	}
 	
-	public void solicitarAprovacao() {
-		ConsultaDAO consulta = new ConsultaDAO(); 
+	public void solicitarAprovacao(ConsultaDAO consulta) {
+		
+		if(this.tipo == "cortesia") {
+			this.aprovado = ((consulta.getNumberOf("cortesia") % 5) != 0);
+		} else if(this.tipo == "cheque") {
+			this.aprovado = (Math.random() < 0.5);
+		} else if(this.tipo == "cartao") {
+			this.aprovado = true;
+		} else if(this.tipo == "convenio") {
+			if((consulta.getNumberOf("convenio") % 10) == 0) {
+				this.aprovado = (Math.random() < 0.5);
+			} else {
+				this.aprovado = true;
+			}
+		} else if(this.tipo == "dinheiro") {
+			this.aprovado = true;
+		}	
+	}	
+
+	public void solicitarAprovacao(ExameDAO consulta) { 
+		
 		if(this.tipo == "cortesia") {
 			this.aprovado = ((consulta.getNumberOf("cortesia") % 5) != 0);
 		} else if(this.tipo == "cheque") {

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import br.ufmg.dcc.pm.App;
@@ -45,7 +46,7 @@ public class AgendaConsulta {
 	public AgendaConsulta() {
 		frmAgendarConsulta = new JFrame("Agendar consulta"); 
 		frmAgendarConsulta.setBounds(100, 100, 442, 258);
-		frmAgendarConsulta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAgendarConsulta.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAgendarConsulta.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 
 		JPanel panel = FormularioUtils.generatePanel();
@@ -119,8 +120,7 @@ public class AgendaConsulta {
 				cbMedico.removeAllItems();
 				Especialidade choosed = (Especialidade) cbEspecialidade.getSelectedItem();
 				List<Medico> medicoPorEspecialidade = new MedicoDAO().findAllByEspecialidade(choosed);
-				for (Medico medico : medicoPorEspecialidade)
-					cbMedico.addItem(medico);
+				for (Medico medico : medicoPorEspecialidade) cbMedico.addItem(medico);
 			}
 		});
 
@@ -139,19 +139,21 @@ public class AgendaConsulta {
 				int posicaoData = cbData.getSelectedIndex() + 1; 
 				dataSelecionada = DateUtils.addDays(DateUtils.getCurrentDate(), posicaoData);
 
-				List<Consulta> consultas = new ConsultaDAO().findAllByDateAndMedico(dataSelecionada, medicoEscolhido);
-				List<Date> disponiveis = criaRangeHorarios(dataSelecionada);
-				List<Date> horariosJaMarcados = new ArrayList<Date>();
-
-				for (Consulta co : consultas)
+				if(medicoEscolhido != null){
+					List<Consulta> consultas = new ConsultaDAO().findAllByDateAndMedico(dataSelecionada, medicoEscolhido);
+					List<Date> disponiveis = criaRangeHorarios(dataSelecionada);
+					List<Date> horariosJaMarcados = new ArrayList<Date>();
+	
+					for (Consulta co : consultas)
+						for (Date d : disponiveis)
+							if (co.getData().compareTo(d) == 0)
+								horariosJaMarcados.add(d);
+	
+					disponiveis.removeAll(horariosJaMarcados);
+	
 					for (Date d : disponiveis)
-						if (co.getData().compareTo(d) == 0)
-							horariosJaMarcados.add(d);
-
-				disponiveis.removeAll(horariosJaMarcados);
-
-				for (Date d : disponiveis)
-					cbHorario.addItem(DateUtils.formatData(d, "HH:mm"));
+						cbHorario.addItem(DateUtils.formatData(d, "HH:mm"));
+				}
 
 			}
 		});
@@ -191,7 +193,7 @@ public class AgendaConsulta {
 			result =  df.parse(DateUtils.formatData(data, "dd/MM/yyyy") + " " + hora);
 		} catch (ParseException e) { 
 			e.printStackTrace();
-		}   
+		}    
 		Consulta consulta = new Consulta(App.getCliente(), medicoEscolhido, result, cbTiposPagamento.getSelectedItem().toString());
 		ConsultaDAO consultaDao = new ConsultaDAO();
 		consultaDao.create(consulta);  
@@ -210,9 +212,6 @@ public class AgendaConsulta {
 			else if(consulta.getTipo().equals("cheque"))
 				msg_resultado += "Seu cheque não foi aprovado a consulta";
 		}
-		Home m = new Home(msg_resultado);
-		m.getFrame().setVisible(true);
-		
-        
+		JOptionPane.showMessageDialog(null, msg_resultado); 
 	}
 }

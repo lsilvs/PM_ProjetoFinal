@@ -33,6 +33,7 @@ public class App {
 
 	public static void abreHome(String cpf) {
 		App.setCpf(cpf);
+		
 		Home home = new Home();
 		home.getFrame().setVisible(true);
 	}

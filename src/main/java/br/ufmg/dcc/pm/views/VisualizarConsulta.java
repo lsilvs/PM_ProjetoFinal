@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import br.ufmg.dcc.pm.models.Consulta;
 import br.ufmg.dcc.pm.modelsDao.ConsultaDAO;
@@ -92,7 +93,7 @@ public class VisualizarConsulta {
 		JLabel lblDataEHora = new JLabel("Data e Hora");
 		frame.getContentPane().add(lblDataEHora, "3, 5");
 		
-		JLabel lblDataEHora_1 = new JLabel(DateUtils.formatData(consultaAtual.getData(), "dd/MM/yyyy HH:MM"));
+		JLabel lblDataEHora_1 = new JLabel(DateUtils.formatData(consultaAtual.getData(), "dd/MM/yyyy HH:mm"));
 		frame.getContentPane().add(lblDataEHora_1, "5, 5");
 		
 		JLabel lblTipoPagamento = new JLabel("Tipo Pagamento");
@@ -105,14 +106,11 @@ public class VisualizarConsulta {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ConsultaDAO().delete(consultaAtual);
+				JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso!");
 				getFrame().dispose();
 			}
 		});
-		frame.getContentPane().add(btnCancelar, "5, 9, left, default");
-		 
-		 
-		
-		 
+		frame.getContentPane().add(btnCancelar, "5, 9, left, default"); 
 	}
 	
 	public JFrame getFrame() {

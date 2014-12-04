@@ -84,13 +84,13 @@ public class ConsultaDAO extends AbstractDAO {
 		Date beginin = DateUtils.getBegginOfDay(date);
 		Date endin = DateUtils.getEndOfDay(date);
 		
-        String sql = "FROM " + ENTITY_NAME + " WHERE medico_id = " + medico.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
+        String sql = "FROM " + ENTITY_NAME + " WHERE aprovado = 1 AND medico_id = " + medico.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
     	return (List<Consulta>) super.createQuery(sql);
     }
 	
 	@SuppressWarnings("unchecked")
 	public int getNumberOf(String tipo) throws DataAccessLayerException{ 
-		String sql = "FROM " + ENTITY_NAME + " WHERE tipo = '" + tipo + "'";
+		String sql = "FROM Consulta WHERE tipo = '" + tipo + "'";
 		List<Consulta> c = (List<Consulta>) super.createQuery(sql);
     	return c.size();
 	}

@@ -18,8 +18,8 @@ public class Medico extends Funcionario {
 		super.nome = nome;
 		this.especialidade = especialidade;
 	}
-	
-	@OneToOne(cascade=CascadeType.ALL)
+
+	@OneToOne(cascade=CascadeType.DETACH)
 	public Especialidade getEspecialidade() {
 		return especialidade;
 	}

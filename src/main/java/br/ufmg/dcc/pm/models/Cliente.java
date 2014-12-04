@@ -33,6 +33,15 @@ public class Cliente {
 		this.numCPF = cpf;
 		this.telefone = telefone; 
 	}
+	
+	public Cliente(String nome, String identidade, String cpf, String dataNascimento, String telefone,String endereco) {
+		this.nome = nome;
+		this.numIdentidade = identidade;
+		this.dataNascimento = dataNascimento;
+		this.numCPF = cpf;
+		this.telefone = telefone; 
+		this.endereco = endereco;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 

@@ -3,12 +3,15 @@ package br.ufmg.dcc.pm.views;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import br.ufmg.dcc.pm.App;
 import br.ufmg.dcc.pm.models.Cliente;
@@ -25,7 +28,8 @@ public class CadastroCliente{
 	private JTextField txtIdentidade;
 	private JTextField txtCPF;
 	private JTextField txtDataNascimento;
-	private JTextField txtTelefone; 
+	private JTextField txtTelefone;
+	private JTextField txtEndereco;  
 
 	/**
 	 * Create the application.
@@ -97,7 +101,11 @@ public class CadastroCliente{
 		JLabel lblDataDeNascimento = new JLabel("Data de Nascimento  ");
 		panel_3.add(lblDataDeNascimento, "1, 1, right, fill");
 		
-		txtDataNascimento = new JTextField();
+		try {
+			txtDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		} catch (ParseException e1) { 
+			e1.printStackTrace();
+		}
 		panel_3.add(txtDataNascimento, "2, 1, fill, center");
 		txtDataNascimento.setColumns(10);
 		
@@ -112,9 +120,29 @@ public class CadastroCliente{
 		JLabel lblTelefone = new JLabel("Telefone  ");
 		panel_4.add(lblTelefone, "1, 1, right, fill");
 		
-		txtTelefone = new JTextField();
+		try {
+			txtTelefone = new JFormattedTextField(new MaskFormatter("(##)####-####*"));
+		} catch (ParseException e1) { 
+			e1.printStackTrace();
+		}
 		panel_4.add(txtTelefone, "2, 1, fill, center");
 		txtTelefone.setColumns(10);
+		
+		JPanel panel_6 = new JPanel();
+		frame.getContentPane().add(panel_6);
+		panel_6.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode(encodedColumnSpec),
+				ColumnSpec.decode(encodedColumnSpec2),},
+			new RowSpec[] {
+				RowSpec.decode(encodedRowSpec),}));
+		
+		JLabel lblEndereco = new JLabel("Endereço  ");
+		panel_6.add(lblEndereco, "1, 1, right, fill");
+		
+		txtEndereco = new JTextField();
+		panel_6.add(txtEndereco, "2, 1, fill, center");
+		txtEndereco.setColumns(10);
+		 
 		
 		JPanel panel_5 = new JPanel();
 		frame.getContentPane().add(panel_5);
@@ -133,8 +161,14 @@ public class CadastroCliente{
 		String identidade = txtIdentidade.getText();
 		String cpf = txtCPF.getText();
 		String dataNascimento = txtDataNascimento.getText();
-		String telefone = txtTelefone.getText(); 
-		new ClienteDAO().create(new Cliente(nome,identidade,cpf,dataNascimento,telefone)); 
+		String telefone = txtTelefone.getText();
+		String endereco = txtEndereco.getText();
+		
+		ClienteDAO clienteDAO = new ClienteDAO();
+
+		Cliente cliente = new Cliente(nome,identidade,cpf,dataNascimento,telefone,endereco);
+		clienteDAO.saveOrUpdate(cliente);
+		
 		frame.dispose();  
 		App.abreHome(cpf);
 	}
