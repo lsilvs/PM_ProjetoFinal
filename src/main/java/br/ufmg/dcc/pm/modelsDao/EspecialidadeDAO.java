@@ -67,7 +67,7 @@ public class EspecialidadeDAO extends AbstractDAO {
     }
 
 	@SuppressWarnings("unchecked")
-	public List<Especialidade> findAllWithMedico() { 
+	public List<Especialidade> findAllHaveMedico() { 
 		return (List<Especialidade>) super.createQuery("select distinct(e) from Funcionario f JOIN f.especialidade e order by e.nome");
 	}
 

@@ -23,4 +23,22 @@ public class DateUtils {
 		DateFormat dateFormat = new SimpleDateFormat(format); 
 		return dateFormat.format(date);
 	}
+	
+	public static Date getBegginOfDay(Date data){
+		return setHourMinuteSecond(data,0,0,0);
+	}
+	
+	public static Date getEndOfDay(Date data){ 
+		 return setHourMinuteSecond(data,23,59,59);
+	}
+	
+	public static Date setHourMinuteSecond(Date data, int hour, int minute, int second){
+		Calendar cal = Calendar.getInstance();
+		 cal.setTime(data);
+		 cal.set(Calendar.HOUR_OF_DAY, hour);
+		 cal.set(Calendar.MINUTE, minute);
+		 cal.set(Calendar.SECOND, second);
+		 cal.set(Calendar.MILLISECOND, 0);
+		 return cal.getTime();
+	}
 }

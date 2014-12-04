@@ -14,12 +14,17 @@ public class Consulta extends Atendimento {
 
 	private Medico medico;
 	
+	public Consulta(){		
+	}
+	
 	public Consulta(Cliente cliente, Medico medico, Date data, String tipo) {
 		super.cliente = cliente;
 		super.data = data;
-		super.tipo = tipo;
-		super.aprovado = false;
+		super.tipo = tipo; 
 		this.medico = medico;
+		super.aprovado = false; 
+		
+		solicitarAprovacao();
 	}
 
 	@OneToOne(cascade=CascadeType.ALL)

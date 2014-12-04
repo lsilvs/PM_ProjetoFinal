@@ -1,5 +1,6 @@
 package br.ufmg.dcc.pm.modelsDao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.AbstractDAO;
@@ -7,6 +8,7 @@ import org.hibernate.DataAccessLayerException;
 
 import br.ufmg.dcc.pm.models.Consulta;
 import br.ufmg.dcc.pm.models.Medico;
+import br.ufmg.dcc.pm.utils.DateUtils;
 
 
 public class ConsultaDAO extends AbstractDAO {
@@ -65,16 +67,28 @@ public class ConsultaDAO extends AbstractDAO {
     @SuppressWarnings("unchecked")
 	public List<Consulta> findAll() throws DataAccessLayerException{
         return (List<Consulta>) super.findAll(Consulta.class);
-    }
+    }     
     
-    /**
-     * Finds all Consultas in the database.
-     * @return
-     */
     @SuppressWarnings("unchecked")
 	public List<Consulta> findAllByMedico(Medico medico) throws DataAccessLayerException{
         String sql = "FROM " + Consulta.class.getName() + " WHERE medico_id = " + medico.getId();
     	return (List<Consulta>) super.createQuery(sql);
     }
+     
+	@SuppressWarnings("unchecked")
+	public List<Consulta> findAllByDateAndMedico(Date date, Medico medico) throws DataAccessLayerException{
+		Date beginin = DateUtils.getBegginOfDay(date);
+		Date endin = DateUtils.getEndOfDay(date);
+		
+        String sql = "FROM " + Consulta.class.getName() + " WHERE medico_id = " + medico.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
+    	return (List<Consulta>) super.createQuery(sql);
+    }
+	
+	@SuppressWarnings("unchecked")
+	public int getNumberOf(String tipo) throws DataAccessLayerException{ 
+		String sql = "FROM " + Consulta.class.getName() + " WHERE tipo = '" + tipo + "'";
+		List<Consulta> c = (List<Consulta>) super.createQuery(sql);
+    	return c.size();
+	}
 
 }

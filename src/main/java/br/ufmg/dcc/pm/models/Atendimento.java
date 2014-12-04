@@ -11,6 +11,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+import br.ufmg.dcc.pm.modelsDao.ConsultaDAO;
+
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Atendimento {
@@ -21,6 +23,8 @@ public class Atendimento {
 	protected String tipo;
 	protected Boolean aprovado;
 
+	public static String[] TIPOS_PAGAMENTO = { "cortesia", "cheque", "cartao", "convenio","dinheiro" }; 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	public Integer getId() {
@@ -65,14 +69,15 @@ public class Atendimento {
 	}
 	
 	public void solicitarAprovacao() {
+		ConsultaDAO consulta = new ConsultaDAO(); 
 		if(this.tipo == "cortesia") {
-			this.aprovado = ((this.id % 5) != 0);
+			this.aprovado = ((consulta.getNumberOf("cortesia") % 5) != 0);
 		} else if(this.tipo == "cheque") {
 			this.aprovado = (Math.random() < 0.5);
 		} else if(this.tipo == "cartao") {
 			this.aprovado = true;
 		} else if(this.tipo == "convenio") {
-			if((this.id % 10) == 0) {
+			if((consulta.getNumberOf("convenio") % 10) == 0) {
 				this.aprovado = (Math.random() < 0.5);
 			} else {
 				this.aprovado = true;
