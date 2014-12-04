@@ -22,6 +22,8 @@ public class Atendimento {
 	protected Date data;
 	protected String tipo;
 	protected Boolean aprovado;
+	
+	public Atendimento() {}
 
 	public static String[] TIPOS_PAGAMENTO = { "cortesia", "cheque", "cartao", "convenio","dinheiro" }; 
 	

@@ -10,6 +10,8 @@ public class Exame extends Atendimento {
 
 	private TipoExame tipoExame;
 	
+	public Exame() {}
+	
 	public Exame(Cliente cliente, TipoExame tipoExame, Date data, String tipo) {
 		super.cliente = cliente;
 		super.data = data;

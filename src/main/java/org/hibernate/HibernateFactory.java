@@ -1,9 +1,12 @@
 package org.hibernate;
 
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 public class HibernateFactory {
     private static SessionFactory sessionFactory;
+    private static ServiceRegistry serviceRegistry;
 
     /**
      * Constructs a new Singleton SessionFactory
@@ -74,11 +77,11 @@ public class HibernateFactory {
      * @return
      * @throws HibernateException
      */
-    @SuppressWarnings("deprecation")
 	private static SessionFactory configureSessionFactory() throws HibernateException {
-        Configuration configuration = new Configuration();
+		Configuration configuration = new Configuration();
         configuration.configure();
-        sessionFactory = configuration.buildSessionFactory();
+        serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();        
+        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         return sessionFactory;
     }
 }

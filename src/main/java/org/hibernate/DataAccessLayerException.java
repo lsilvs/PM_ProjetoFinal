@@ -4,7 +4,12 @@ package org.hibernate;
  * Represents Exceptions thrown by the Data Access Layer.
  */
 public class DataAccessLayerException extends RuntimeException {
-    public DataAccessLayerException() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DataAccessLayerException() {
     }
 
     public DataAccessLayerException(String message) {

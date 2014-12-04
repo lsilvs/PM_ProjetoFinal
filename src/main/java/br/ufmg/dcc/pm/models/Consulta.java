@@ -13,9 +13,8 @@ import org.hibernate.annotations.Proxy;
 public class Consulta extends Atendimento {
 
 	private Medico medico;
-	
-	public Consulta(){		
-	}
+
+	public Consulta() {}
 	
 	public Consulta(Cliente cliente, Medico medico, Date data, String tipo) {
 		super.cliente = cliente;

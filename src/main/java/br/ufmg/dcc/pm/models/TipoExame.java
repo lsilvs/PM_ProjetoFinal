@@ -11,6 +11,8 @@ public class TipoExame {
 	private Integer id;
 	private String nome;
 	
+	public TipoExame() {}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	public Integer getId() {
@@ -27,6 +29,10 @@ public class TipoExame {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String toString(){
+		return this.nome;
 	}
 
 }

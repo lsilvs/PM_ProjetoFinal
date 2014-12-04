@@ -11,9 +11,7 @@ public class Especialidade {
 	private Integer id;
 	private String nome;
 	
-	public Especialidade(){
-		
-	}
+	public Especialidade(){}
 	
 	public Especialidade(String nome) {
 		this.nome = nome;

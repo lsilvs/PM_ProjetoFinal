@@ -16,6 +16,8 @@ public class Funcionario {
 	private Integer id;
 	protected String nome;
 	
+	public Funcionario() {}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	public Integer getId() {

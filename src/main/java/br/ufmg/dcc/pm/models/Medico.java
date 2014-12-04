@@ -12,9 +12,7 @@ public class Medico extends Funcionario {
 
 	private Especialidade especialidade;
 	
-	public Medico() {
-
-	}
+	public Medico() {}
 
 	public Medico(String nome, Especialidade especialidade) {
 		super.nome = nome;
