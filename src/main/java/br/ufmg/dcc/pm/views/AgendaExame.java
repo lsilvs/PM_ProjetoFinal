@@ -4,7 +4,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,25 +16,27 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import br.ufmg.dcc.pm.App;
+import br.ufmg.dcc.pm.models.Atendimento;
+import br.ufmg.dcc.pm.models.Especialidade;
+import br.ufmg.dcc.pm.models.Exame;
 import br.ufmg.dcc.pm.models.TipoExame;
+import br.ufmg.dcc.pm.modelsDao.EspecialidadeDAO;
 import br.ufmg.dcc.pm.modelsDao.ExameDAO;
 import br.ufmg.dcc.pm.modelsDao.TipoExameDAO;
 import br.ufmg.dcc.pm.utils.DateUtils;
-
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
+import br.ufmg.dcc.pm.utils.FormularioUtils;
 
 public class AgendaExame {
-	static final long ONE_MINUTE_IN_MILLIS = 60000; //millisecs
-	static final long ONE_DAY_IN_MILLIS = ONE_MINUTE_IN_MILLIS * 60 * 24 ; //millisecs
 
 	private JFrame frmAgendarExame;
 	JComboBox<TipoExame> cbTipoExame;
 	JComboBox<String> cbData;
 	JComboBox<String> cbHorario;
-	TipoExame exameEscolhido;
-	ExameDAO exameDao;
+	JComboBox<String> cbTiposPagamento;
+	JButton btnSalvar;
+	TipoExame tipoExameEscolhido;
+	Date dataSelecionada;
 
 	/**
 	 * Create the frame.
@@ -43,19 +47,17 @@ public class AgendaExame {
 		frmAgendarExame.setBounds(100, 100, 442, 258);
 		frmAgendarExame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAgendarExame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
-		
-		exameDao = new ExameDAO();
 
-		JPanel panel_1 = generatePanel();
+		JPanel panel_1 = FormularioUtils.generatePanel();
 		frmAgendarExame.getContentPane().add(panel_1);
 
-		JLabel lblExame = new JLabel("Exame  ");
-		panel_1.add(lblExame, "1, 1, right, fill");
+		JLabel lblTipoExame = new JLabel("Médico  ");
+		panel_1.add(lblTipoExame, "1, 1, right, fill");
 
 		cbTipoExame = new JComboBox<TipoExame>();
 		panel_1.add(cbTipoExame, "2, 1, fill, default");
 
-		JPanel panel_2 = generatePanel();
+		JPanel panel_2 = FormularioUtils.generatePanel();
 		frmAgendarExame.getContentPane().add(panel_2);
 
 		JLabel lblData = new JLabel("Data  ");
@@ -64,7 +66,7 @@ public class AgendaExame {
 		cbData = new JComboBox<String>();
 		panel_2.add(cbData, "2, 1, fill, default");
 
-		JPanel panel_3 = generatePanel();
+		JPanel panel_3 = FormularioUtils.generatePanel();
 		frmAgendarExame.getContentPane().add(panel_3);
 
 		JLabel lblHorario = new JLabel("Horário  ");
@@ -72,86 +74,126 @@ public class AgendaExame {
 
 		cbHorario = new JComboBox<String>();
 		panel_3.add(cbHorario, "2, 1, fill, default");
+		
+		JPanel panelTipo = FormularioUtils.generatePanel();
+		frmAgendarExame.getContentPane().add(panelTipo);
+
+		JLabel lblTipoPagamento = new JLabel("Tipo de Pagamento  ");
+		panelTipo.add(lblTipoPagamento, "1, 1, right, fill");
+
+		cbTiposPagamento = new JComboBox<String>(Atendimento.TIPOS_PAGAMENTO);
+		panelTipo.add(cbTiposPagamento, "2, 1, fill, default");
 
 		JPanel panel_5 = new JPanel();
 		frmAgendarExame.getContentPane().add(panel_5);
 
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnSalvar = new JButton("Salvar");
 		panel_5.add(btnSalvar);
 
+		// Ações do Formulário
 		setActions();
-		populaExames();
+		populaTipoExame();
 	}
 
 	public JFrame getFrame() {
 		return frmAgendarExame;
 	}
 
-	private void populaExames() {
-		TipoExameDAO tipoExame = new TipoExameDAO();
-		for (TipoExame tipo : tipoExame.findAll())
+	private void populaTipoExame() { 
+		for (TipoExame tipo : new TipoExameDAO().findAll())
 			cbTipoExame.addItem(tipo);
 	}
 
 	private void setActions() {
 		cbTipoExame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exameEscolhido = (TipoExame) cbTipoExame.getSelectedItem();
+				tipoExameEscolhido = (TipoExame) cbTipoExame.getSelectedItem();
 				atualizaCampoDataEHora();
 			}
 		});
-		
-		cbData.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) { 
-				int posicaoData = cbData.getSelectedIndex()+1;
-				Date data = DateUtils.addDays(DateUtils.getCurrentDate(), posicaoData);
+
+		cbData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				cbHorario.removeAllItems();
+
+				int posicaoData = cbData.getSelectedIndex() + 1; 
+				dataSelecionada = DateUtils.addDays(DateUtils.getCurrentDate(), posicaoData);
+
+				List<Exame> consultas = new ExameDAO().findAllByDateAndTipoExame(dataSelecionada, tipoExameEscolhido);
+				List<Date> disponiveis = criaRangeHorarios(dataSelecionada);
+				List<Date> horariosJaMarcados = new ArrayList<Date>();
+
+				for (Exame co : consultas)
+					for (Date d : disponiveis)
+						if (co.getData().compareTo(d) == 0)
+							horariosJaMarcados.add(d);
+
+				disponiveis.removeAll(horariosJaMarcados);
+
+				for (Date d : disponiveis)
+					cbHorario.addItem(DateUtils.formatData(d, "HH:mm"));
+
+			}
+		});
+
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				realizarAgendamento();
 			}
 		});
 	}
 
-	@SuppressWarnings("deprecation")
+	private List<Date> criaRangeHorarios(Date data) {
+		List<Date> rangeHorarios = new ArrayList<Date>();
+		for (int i = 8; i < 17; i++) {
+			rangeHorarios.add(DateUtils.setHourMinuteSecond(data, i, 0, 0));
+			rangeHorarios.add(DateUtils.setHourMinuteSecond(data, i, 30, 0));
+		}
+		return rangeHorarios;
+
+	}
+
 	private void atualizaCampoDataEHora() {
 		cbData.removeAllItems();
 		cbHorario.removeAllItems();
 		
-		DateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
-		DateFormat horaFormat = new SimpleDateFormat("HH:mm");
-		DateFormat dbFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		date.setHours(8);
-		date.setMinutes(0);
-		date.setSeconds(0);
-		
-		List<Date> datas = exameDao.getScheduleByExame(exameEscolhido);
-		
-//		String dateString = new SimpleDateFormat("dd/MM/yyy HH:mm").format(consulta.getData());
-//		Date data = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse("2014-12-1 08:30");
-
-		for (int i = 0; i < 20; i++) {
-			cbData.addItem(dataFormat.format(new Date(date.getTime() + (i * ONE_DAY_IN_MILLIS))));
-		}
-		
-		for (int i = 0; i < 18; i++) {
-			Date newData = new Date(date.getTime() + (i * 30 * ONE_MINUTE_IN_MILLIS));
-			if(datas.contains(newData)) continue;
-			cbHorario.addItem(horaFormat.format(newData));
-		}
+		// Pega os próximos 20 dias para marcar consulta
+		for (int i = 1; i < 20; i++)
+			cbData.addItem(DateUtils.formatData(DateUtils.addDays(DateUtils.getCurrentDate(), i), "dd/MM/yyyy"));
 	}
 
-	private JPanel generatePanel() {
-		String encodedColumnSpec = "170px";
-		String encodedColumnSpec2 = "260px";
-		String encodedRowSpec = "40px";
-
-		JPanel panel = new JPanel();
-
-		panel.setLayout(new FormLayout(new ColumnSpec[] { ColumnSpec.decode(encodedColumnSpec),
-				ColumnSpec.decode(encodedColumnSpec2), }, new RowSpec[] { RowSpec.decode(encodedRowSpec), }));
-
-		return panel;
+	private void realizarAgendamento() {
+		Date data = dataSelecionada;
+		String hora = (String) cbHorario.getSelectedItem();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date result = data;
+		try {
+			result =  df.parse(DateUtils.formatData(data, "dd/MM/yyyy") + " " + hora);
+		} catch (ParseException e) { 
+			e.printStackTrace();
+		}   
+		Exame consulta = new Exame(App.getCliente(), tipoExameEscolhido, result, cbTiposPagamento.getSelectedItem().toString());
+		ExameDAO consultaDao = new ExameDAO();
+		consultaDao.create(consulta);  
+		
+		getFrame().dispose();
+		String msg_resultado = "";
+		
+		if(consulta.getAprovado()){
+			msg_resultado = "Seu agendamento foi realizado com sucesso!";
+		}else{
+			msg_resultado = "Infelizmente não pudemos realizar seu agendamento\n";
+			if( consulta.getTipo().equals("convenio"))
+				msg_resultado += "O Convenio não aprovou a consulta";
+			else if(consulta.getTipo().equals("cortesia") )
+				msg_resultado += "A diretoria não aprovou a consulta";
+			else if(consulta.getTipo().equals("cheque"))
+				msg_resultado += "Seu cheque não foi aprovado a consulta";
+		}
+		Home m = new Home(msg_resultado);
+		m.getFrame().setVisible(true);
+		
+        
 	}
 }

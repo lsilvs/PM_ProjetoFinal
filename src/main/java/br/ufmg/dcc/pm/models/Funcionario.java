@@ -1,6 +1,5 @@
 package br.ufmg.dcc.pm.models;
 
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

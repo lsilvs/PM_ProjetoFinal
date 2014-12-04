@@ -75,6 +75,14 @@ public class Home {
 		
 		JButton btnPedidoDeExame = new JButton("Pedido de Exame");
 		panel.add(btnPedidoDeExame);
+		btnPedidoDeExame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getFrame().dispose();
+
+				AgendaExame agendaExame = new AgendaExame();
+				agendaExame.getFrame().setVisible(true);
+			}
+		});
 		
 		JButton btnCancelarConsulta = new JButton("Cancelar Consulta");
 		btnCancelarConsulta.addActionListener(new ActionListener() {

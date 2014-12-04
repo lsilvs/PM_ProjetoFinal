@@ -1,15 +1,16 @@
 package br.ufmg.dcc.pm.modelsDao;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.AbstractDAO;
 import org.hibernate.DataAccessLayerException;
 
+import br.ufmg.dcc.pm.models.Consulta;
 import br.ufmg.dcc.pm.models.Exame;
 import br.ufmg.dcc.pm.models.Medico;
 import br.ufmg.dcc.pm.models.TipoExame;
+import br.ufmg.dcc.pm.utils.DateUtils;
 
 
 public class ExameDAO extends AbstractDAO {
@@ -69,22 +70,29 @@ public class ExameDAO extends AbstractDAO {
 	public List<Exame> findAll() throws DataAccessLayerException{
         return (List<Exame>) super.findAll(Exame.class);
     }
+    
+    @SuppressWarnings("unchecked")
+	public List<Date> getScheduleByExame(TipoExame tipoExame, Date date) throws DataAccessLayerException{
+		Date beginin = DateUtils.getBegginOfDay(date);
+		Date endin = DateUtils.getEndOfDay(date);
+		
+        String sql = "FROM " + Exame.class.getName() + " WHERE tipoExame_id = " + tipoExame.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
+        List<Exame> exames = (List<Exame>) super.createQuery(sql);
+        
+        List<Date> datas = null;
+        for (Exame exame : exames)
+        	datas.add(exame.getData());
+        
+    	return datas;
+    }
 
-	@SuppressWarnings({ "unchecked", "null" })
-	public List<Date> getScheduleByExame(TipoExame tipo) {
-		String sql = "FROM atendimento WHERE DTYPE = 'EXAME' and tipoExame_id = "+tipo.getId();
-		List<Exame> exames = (List<Exame>) super.createQuery(sql);
-		List<Date> datas = null;
-		for (Exame exame : exames)
-			datas.add(exame.getData());
-		return datas;
-	}
-	
-//	public Boolean dataRegistrada(TipoExame tipo, Date newData) throws DataAccessLayerException {
-//		String sql = "FROM " + TipoExame.class.getName() + " WHERE DTYPE = 'EXAME' and tipoExame_id = "+tipo.getId()+" and data = '"+newData+"'";
-//		List<Exame> all = (List<Exame>) super.createQuery("SELECT * FROM atendimento );
-//		List<Exame> exames = (List<Exame>) super.createQuery(sql);
-//		return  all != null;
-//    }
+    @SuppressWarnings("unchecked")
+	public List<Exame> findAllByDateAndTipoExame(Date date, TipoExame tipoExame) throws DataAccessLayerException{
+		Date beginin = DateUtils.getBegginOfDay(date);
+		Date endin = DateUtils.getEndOfDay(date);
+		
+        String sql = "FROM " + Consulta.class.getName() + " WHERE tipoExame_id = " + tipoExame.getId() + " AND data between " + beginin.getTime() + " AND " + endin.getTime();
+    	return (List<Exame>) super.createQuery(sql);
+    }
 
 }

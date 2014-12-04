@@ -1,7 +1,5 @@
 package br.ufmg.dcc.pm.modelsDao;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.AbstractDAO;
@@ -67,10 +65,5 @@ public class TipoExameDAO extends AbstractDAO {
 	public List<TipoExame> findAll() throws DataAccessLayerException{
         return (List<TipoExame>) super.findAll(TipoExame.class);
     }
-
-	@SuppressWarnings("unchecked")
-	public List<Date> getScheduleByTipoExame(TipoExame tipo) { 
-		return (List<Date>) super.createQuery("SELECT data FROM atendimento WHERE DTYPE = 'EXAME' and tipoExame_id = "+tipo.getId());
-	}
 
 }

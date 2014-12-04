@@ -2,6 +2,7 @@ package br.ufmg.dcc.pm.models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -20,7 +21,7 @@ public class Exame extends Atendimento {
 		this.tipoExame = tipoExame;
 	}
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	public TipoExame getTipoExame() {
 		return tipoExame;
 	}
